@@ -1,16 +1,15 @@
 package com.sachinreddy.yeti.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sachinreddy.yeti.R
 import com.sachinreddy.yeti.adapter.TimelineAdapter
-import com.sachinreddy.yeti.data.TimelineItem
 import com.sachinreddy.yeti.databinding.FragmentFirstBinding
+import com.sachinreddy.yeti.viewmodel.MainViewModel
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -18,9 +17,9 @@ import com.sachinreddy.yeti.databinding.FragmentFirstBinding
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
+    private lateinit var viewModel: MainViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,53 +28,22 @@ class FirstFragment : Fragment() {
     ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        val data = listOf(
-            TimelineItem(
-                "sachinreddy96",
-                "",
-                12
-            ),
-            TimelineItem(
-                "friend :)",
-                "",
-                54
-            ),
-            TimelineItem(
-                "Harry Potter",
-                "",
-                3
-            )
-        )
+        // Get the viewModel
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        val newData = listOf(
-            TimelineItem(
-                "1",
-                "",
-                1
-            ),
-            TimelineItem(
-                "2 :)",
-                "",
-                2
-            ),
-            TimelineItem(
-                "3",
-                "",
-                3
-            )
-        )
-
+        // Make RV Adapter and set items
         val rvAdapter = TimelineAdapter()
-        rvAdapter.setItems(data)
+        rvAdapter.setItems(viewModel.data)
 
         binding.rvNewsfeed.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
         }
 
+        // On refresh logic
         binding.swipeRefresh.setOnRefreshListener {
             rvAdapter.apply {
-                setItems(newData)
+                setItems(viewModel.newData)
                 notifyDataSetChanged()
             }
 
