@@ -39,12 +39,47 @@ class FirstFragment : Fragment() {
                 "friend :)",
                 "",
                 54
+            ),
+            TimelineItem(
+                "Harry Potter",
+                "",
+                3
             )
         )
 
+        val newData = listOf(
+            TimelineItem(
+                "1",
+                "",
+                1
+            ),
+            TimelineItem(
+                "2 :)",
+                "",
+                2
+            ),
+            TimelineItem(
+                "3",
+                "",
+                3
+            )
+        )
+
+        val rvAdapter = TimelineAdapter()
+        rvAdapter.setItems(data)
+
         binding.rvNewsfeed.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = TimelineAdapter(data)
+            adapter = rvAdapter
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            rvAdapter.apply {
+                setItems(newData)
+                notifyDataSetChanged()
+            }
+
+            binding.swipeRefresh.isRefreshing = false
         }
 
         return binding.root
