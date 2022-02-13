@@ -24,12 +24,11 @@ class MainActivity : AppCompatActivity() {
         // Action Bar
         setSupportActionBar(binding.toolbar)
 
-        // Set current fragment
-
         val firstFragment = FirstFragment()
         val secondFragment = SecondFragment()
         val thirdFragment = ThirdFragment()
 
+        // Set current fragment
         setCurrentFragment(firstFragment)
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
