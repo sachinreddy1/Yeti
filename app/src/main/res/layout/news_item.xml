@@ -25,7 +25,6 @@
         app:layout_constraintBottom_toTopOf="@id/newsImage"
         />
 
-
     <ImageView
         android:id="@+id/newsImage"
         android:layout_width="match_parent"
