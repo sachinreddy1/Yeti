@@ -7,7 +7,16 @@ class MainViewModel: ViewModel() {
     val data = listOf(
         TimelineItem("sachinreddy96", "", 12),
         TimelineItem("friend :)", "", 54),
-        TimelineItem("Harry Potter", "", 3)
+        TimelineItem("Harry Potter", "", 3),
+        TimelineItem("sachinreddy96", "", 12),
+        TimelineItem("friend :)", "", 54),
+        TimelineItem("Harry Potter", "", 3),
+        TimelineItem("sachinreddy96", "", 12),
+        TimelineItem("friend :)", "", 54),
+        TimelineItem("Harry Potter", "", 3),
+        TimelineItem("sachinreddy96", "", 12),
+        TimelineItem("friend :)", "", 54),
+        TimelineItem("Harry Potter", "", 3),
     )
 
     val newData = listOf(
