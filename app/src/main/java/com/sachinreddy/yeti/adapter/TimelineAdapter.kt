@@ -34,5 +34,6 @@ class TimelineAdapter: RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
 
     fun setItems(data: List<TimelineItem>) {
         this.items = data
+        notifyDataSetChanged()
     }
 }

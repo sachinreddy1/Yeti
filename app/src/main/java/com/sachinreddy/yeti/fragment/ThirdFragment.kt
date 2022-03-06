@@ -57,7 +57,7 @@ class ThirdFragment : Fragment() {
 
         // Make RV Adapter and set items
         val rvAdapter = ProfileAdapter()
-        rvAdapter.setItems(viewModel.data)
+        rvAdapter.setItems(viewModel.data.value!!)
 
         binding.rvProfileFeed.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -67,7 +67,7 @@ class ThirdFragment : Fragment() {
         // On refresh logic
         binding.swipeRefresh.setOnRefreshListener {
             rvAdapter.apply {
-                setItems(viewModel.newData)
+                setItems(viewModel.data.value!!)
                 notifyDataSetChanged()
             }
 
