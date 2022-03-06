@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.sachinreddy.yeti.R
 import com.sachinreddy.yeti.databinding.FragmentSecondBinding
+import com.sachinreddy.yeti.viewmodel.MainViewModel
 import java.io.FileNotFoundException
 
 /**
@@ -20,36 +22,40 @@ import java.io.FileNotFoundException
 class SecondFragment : Fragment() {
 
     private var binding: FragmentSecondBinding? = null
-    private val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var permissionGranted = false
-    private val REQUEST_CODE = 12345
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSecondBinding.inflate(inflater, container, false)
+        FragmentSecondBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = this@SecondFragment
+            vm = mainViewModel
 
-        binding?.uploadActionButton?.setOnClickListener {
-            checkPermissions()
+            binding = this
+            uploadActionButton.setOnClickListener {
+                checkPermissions()
+            }
+
+            return root
         }
-
-        return binding!!.root
     }
 
     private fun checkPermissions() {
-        context?.let {
-            if (ContextCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false
+        val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        val REQUEST_CODE = 12345
 
-                Intent().apply {
-                    type = "image/*"
-                    action = Intent.ACTION_GET_CONTENT
-                    startActivityForResult(Intent.createChooser(this, "Title"), REQUEST_CODE)
-                }
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_CODE)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted = false
+
+            Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(this, "Title"), REQUEST_CODE)
             }
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_CODE)
         }
     }
 
