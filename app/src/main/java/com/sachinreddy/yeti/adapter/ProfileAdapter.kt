@@ -33,5 +33,6 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
 
     fun setItems(data: List<TimelineItem>) {
         this.items = data
+        notifyDataSetChanged()
     }
 }
