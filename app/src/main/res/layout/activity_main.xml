@@ -29,11 +29,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!--  Main Content  -->
-    <FrameLayout
-        android:id="@+id/flFragment"
+    <fragment
+        android:id="@+id/main_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
 
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
 
         app:layout_constraintTop_toBottomOf="@id/top_toolbar"
         app:layout_constraintStart_toStartOf="parent"

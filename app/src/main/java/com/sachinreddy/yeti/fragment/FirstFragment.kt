@@ -16,24 +16,16 @@ import com.sachinreddy.yeti.viewmodel.MainViewModel
  */
 class FirstFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-    private lateinit var viewModel: MainViewModel
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
-
-        // Get the viewModel
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val binding = FragmentFirstBinding.inflate(inflater, container, false)
+        val mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // Make RV Adapter and set items
         val rvAdapter = TimelineAdapter()
-        rvAdapter.setItems(viewModel.data)
+        rvAdapter.setItems(mainViewModel.data)
 
         binding.rvNewsfeed.apply {
             layoutManager = LinearLayoutManager(context)
@@ -43,7 +35,7 @@ class FirstFragment : Fragment() {
         // On refresh logic
         binding.swipeRefresh.setOnRefreshListener {
             rvAdapter.apply {
-                setItems(viewModel.newData)
+                setItems(mainViewModel.newData)
                 notifyDataSetChanged()
             }
 
@@ -51,10 +43,5 @@ class FirstFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

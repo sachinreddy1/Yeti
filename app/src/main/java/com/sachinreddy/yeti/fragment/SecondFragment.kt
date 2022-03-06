@@ -19,25 +19,22 @@ import java.io.FileNotFoundException
  */
 class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var binding: FragmentSecondBinding? = null
     private val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     private var permissionGranted = false
     private val REQUEST_CODE = 12345
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding = FragmentSecondBinding.inflate(inflater, container, false)
 
-        binding.uploadActionButton.setOnClickListener {
+        binding?.uploadActionButton?.setOnClickListener {
             checkPermissions()
         }
 
-        return binding.root
+        return binding!!.root
     }
 
     private fun checkPermissions() {
@@ -71,18 +68,13 @@ class SecondFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         data?.let {
             try {
-                binding.uploadImage.setImageURI(it.data)
-                binding.uploadActionButton.text = getString(R.string.upload)
+                binding!!.uploadImage.setImageURI(it.data)
+                binding!!.uploadActionButton.text = getString(R.string.upload)
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

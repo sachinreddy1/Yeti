@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.sachinreddy.yeti.databinding.ActivityMainBinding
-import com.sachinreddy.yeti.fragment.FirstFragment
-import com.sachinreddy.yeti.fragment.SecondFragment
-import com.sachinreddy.yeti.fragment.ThirdFragment
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,32 +21,11 @@ class MainActivity : AppCompatActivity() {
         // Action Bar
         setSupportActionBar(binding.toolbar)
 
-        val firstFragment = FirstFragment()
-        val secondFragment = SecondFragment()
-        val thirdFragment = ThirdFragment()
-
-        // Set current fragment
-        setCurrentFragment(firstFragment)
-
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_home -> setCurrentFragment(firstFragment)
-                R.id.nav_upload -> setCurrentFragment(secondFragment)
-                R.id.nav_profile -> setCurrentFragment(thirdFragment)
-            }
-            true
-        }
-    }
-
-    private fun setCurrentFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment, fragment)
-            commit()
-        }
+        val navController = findNavController(R.id.main_container)
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
     // Options Menu
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
