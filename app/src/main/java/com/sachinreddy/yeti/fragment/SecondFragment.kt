@@ -10,19 +10,21 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.sachinreddy.yeti.R
 import com.sachinreddy.yeti.databinding.FragmentSecondBinding
+import com.sachinreddy.yeti.repository.YetiRepository
 import com.sachinreddy.yeti.viewmodel.MainViewModel
+import com.sachinreddy.yeti.viewmodel.MainViewModelFactory
 import java.io.FileNotFoundException
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class SecondFragment : Fragment() {
-
     private var binding: FragmentSecondBinding? = null
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val yetiRepository = YetiRepository()
+    private val mainViewModel: MainViewModel by viewModels { MainViewModelFactory(yetiRepository) }
     private var permissionGranted = false
 
     override fun onCreateView(

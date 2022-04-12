@@ -2,18 +2,14 @@ package com.sachinreddy.yeti.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sachinreddy.yeti.adapter.ProfileAdapter
 import com.sachinreddy.yeti.adapter.TimelineAdapter
-import com.sachinreddy.yeti.api.JsonPlaceHolderAPI
 import com.sachinreddy.yeti.data.TimelineItem
-import com.sachinreddy.yeti.data.YetiPost
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.sachinreddy.yeti.repository.YetiRepository
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val repository: YetiRepository) : ViewModel() {
     val data: MutableLiveData<List<TimelineItem>> = MutableLiveData(
         listOf(
             TimelineItem("sachinreddy96", "", 12),
@@ -47,28 +43,9 @@ class MainViewModel : ViewModel() {
     }
 
     fun testAPICall() {
-        val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://jsonplaceholder.typicode.com/")
-            .build()
-            .create(JsonPlaceHolderAPI::class.java)
-
-        val retrofitData = retrofit.getPosts()
-        retrofitData.enqueue(object : Callback<List<YetiPost>?> {
-            override fun onResponse(call: Call<List<YetiPost>?>, response: Response<List<YetiPost>?>) {
-                val responseBody = response.body()!!
-
-                val res = mutableListOf<YetiPost>()
-                for (i in responseBody) {
-                    res.add(i)
-                }
-
-                println(res)
-            }
-
-            override fun onFailure(call: Call<List<YetiPost>?>, t: Throwable) {
-                println(t.message)
-            }
-        })
+        viewModelScope.launch {
+            val response = repository.getPosts()
+            println(response)
+        }
     }
 }
