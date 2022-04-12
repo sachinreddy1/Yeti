@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.sachinreddy.yeti.R
 import com.sachinreddy.yeti.databinding.FragmentSecondBinding
-import com.sachinreddy.yeti.repository.YetiRepository
 import com.sachinreddy.yeti.viewmodel.MainViewModel
-import com.sachinreddy.yeti.viewmodel.MainViewModelFactory
 import java.io.FileNotFoundException
 
 /**
@@ -23,8 +21,7 @@ import java.io.FileNotFoundException
  */
 class SecondFragment : Fragment() {
     private var binding: FragmentSecondBinding? = null
-    private val yetiRepository = YetiRepository()
-    private val mainViewModel: MainViewModel by viewModels { MainViewModelFactory(yetiRepository) }
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var permissionGranted = false
 
     override fun onCreateView(
@@ -32,7 +29,7 @@ class SecondFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         FragmentSecondBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@SecondFragment
+            lifecycleOwner = viewLifecycleOwner
             vm = mainViewModel
 
             binding = this

@@ -9,7 +9,7 @@ import com.sachinreddy.yeti.data.TimelineItem
 import com.sachinreddy.yeti.repository.YetiRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: YetiRepository) : ViewModel() {
+class MainViewModel : ViewModel() {
     val data: MutableLiveData<List<TimelineItem>> = MutableLiveData(
         listOf(
             TimelineItem("sachinreddy96", "", 12),
@@ -29,6 +29,7 @@ class MainViewModel(private val repository: YetiRepository) : ViewModel() {
 
     val timelineAdapter: TimelineAdapter = TimelineAdapter()
     val profileAdapter: ProfileAdapter = ProfileAdapter()
+    private val yetiRepository = YetiRepository()
 
     fun setOnRefreshListener() {
         data.postValue(
@@ -44,7 +45,7 @@ class MainViewModel(private val repository: YetiRepository) : ViewModel() {
 
     fun testAPICall() {
         viewModelScope.launch {
-            val response = repository.getPosts()
+            val response = yetiRepository.getPosts()
             println(response)
         }
     }
