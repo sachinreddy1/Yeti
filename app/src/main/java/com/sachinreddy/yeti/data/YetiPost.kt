@@ -2,7 +2,7 @@ package com.sachinreddy.yeti.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Post (
+data class YetiPost (
     val userId: Int,
     val id: Int,
     val title: String,

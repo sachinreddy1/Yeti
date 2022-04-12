@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.sachinreddy.yeti.adapter.ProfileAdapter
 import com.sachinreddy.yeti.adapter.TimelineAdapter
 import com.sachinreddy.yeti.api.JsonPlaceHolderAPI
-import com.sachinreddy.yeti.data.Post
 import com.sachinreddy.yeti.data.TimelineItem
+import com.sachinreddy.yeti.data.YetiPost
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,11 +54,11 @@ class MainViewModel : ViewModel() {
             .create(JsonPlaceHolderAPI::class.java)
 
         val retrofitData = retrofit.getPosts()
-        retrofitData.enqueue(object : Callback<List<Post>?> {
-            override fun onResponse(call: Call<List<Post>?>, response: Response<List<Post>?>) {
+        retrofitData.enqueue(object : Callback<List<YetiPost>?> {
+            override fun onResponse(call: Call<List<YetiPost>?>, response: Response<List<YetiPost>?>) {
                 val responseBody = response.body()!!
 
-                val res = mutableListOf<Post>()
+                val res = mutableListOf<YetiPost>()
                 for (i in responseBody) {
                     res.add(i)
                 }
@@ -66,7 +66,7 @@ class MainViewModel : ViewModel() {
                 println(res)
             }
 
-            override fun onFailure(call: Call<List<Post>?>, t: Throwable) {
+            override fun onFailure(call: Call<List<YetiPost>?>, t: Throwable) {
                 println(t.message)
             }
         })
